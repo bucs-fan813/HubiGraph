@@ -1,7 +1,7 @@
 /**
- *  Hubigraph Gauge Child App
+ *  Hubigraph Timeline Child App
  *
- *  Copyright 2020, but let's be honest, you'll copy it
+ *  Copyright 2020, but let's behonest, you'll copy it
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -155,7 +155,11 @@ def graphSetupPage(){
             container << parent.hubiForm_text_input (this, "Gauge Title", "gauge_title", "Gauge Title", false);
             container << parent.hubiForm_text_input (this, "Gauge Units", "gauge_units", "Units", false);
             container << parent.hubiForm_text_input (this, "Gauge Number Formatting<br><small>Example</small>", "gauge_number_format", "##.#", false);
+
+                    
+            
             container << parent.hubiForm_slider (this, title: "Select Number of Highlight Areas on Gauge", name: "num_highlights",  default_value: 3, min: 0, max: 3, units: " highlights", submit_on_change: true);
+                      
             parent.hubiForm_container(this, container, 1); 
         }
         
@@ -166,19 +170,20 @@ def graphSetupPage(){
             num_ = num_highlights.toInteger();   
         }
         
+        
         if (num_ > 0){
             parent.hubiForm_section(this,"HighLight Regions", 1){
                 container = [];
-                for (i=0; i<num_; i++){
+                for (i=0; i<num_; i+=1){
                     switch (i) {
                         case 0 : color_ = "#00FF00"; break;
                         case 1 : color_ = "#a9a67e"; break;
                         case 2 : color_ = "#FF0000"; break;
                     }
                     container << parent.hubiForm_color      (this, "Highlight $i", "highlight${i}", color_, false);
-                    container << parent.hubiForm_text_input (this, "Start Region Value", "highlight${i}_start", "", false);
-                    container << parent.hubiForm_text_input (this, "End Region Value", "highlight${i}_end", "", false);
+                    container << parent.hubiForm_text_input (this, "Select Highlight Start Region Value ${i}", "highlight${i}_start", "", false);
                 }
+                container << parent.hubiForm_text_input (this, "Select Highlight End Region Value ${i-1}", "highlight_end", "", false);
                 parent.hubiForm_container(this, container, 1); 
            }
             
@@ -348,15 +353,15 @@ def getChartOptions(){
         case 3: 
         redColor = highlight2_color_transparent ? "transparent" : highlight2_color;
         redFrom  = highlight2_start;
-        redTo    = highlight2_end;
+        redTo    = highlight_end;
         
         yellowColor  = highlight1_color_transparent ? "transparent" : highlight1_color;
         yellowFrom   = highlight1_start;
-        yellowTo     = highlight1_end;
+        yellowTo     = highlight2_start;
         
         greenColor  = highlight0_color_transparent ? "transparent" : highlight0_color;
         greenFrom   = highlight0_start;
-        greenTo     = highlight0_end;
+        greenTo     = highlight1_start;
             
         break;
             
@@ -364,19 +369,19 @@ def getChartOptions(){
 
         yellowColor  = highlight1_color_transparent ? "transparent" : highlight1_color;
         yellowFrom   = highlight1_start;
-        yellowTo     = highlight1_end;
+        yellowTo     = highlight_end;
         
         greenColor  = highlight0_color_transparent ? "transparent" : highlight0_color;
         greenFrom   = highlight0_start;
-        greenTo     = highlight0_end;
+        greenTo     = highlight1_start;
         
         break;
         
         case 1: 
 
-        greenColor  = highlight0_color_transparent ? "transparent" : highlight0_color;
+        greenColor  =  highlight0_color_transparent ? "transparent" : highlight0_color;
         greenFrom   = highlight0_start;
-        greenTo     = highlight0_end
+        greenTo     = highlight_end
         
         break;
     }
