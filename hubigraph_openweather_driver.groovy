@@ -11,7 +11,22 @@ metadata {
                     capability 'Sensor'
             
 	    attribute 'current_weather', 'string'
-	    
+	    attribute 'sunrise', 'number'
+	    attribute 'temp', 'number'
+	    attribute 'visibility', 'number'
+	    attribute 'uvi', 'number'
+	    attribute 'pressure', 'number'
+	    attribute 'clouds', 'number'
+	    attribute 'feels_like', 'number'
+	    attribute 'wind_gust', 'number'
+	    attribute 'dt', 'number'
+	    attribute 'wind_deg', 'number'
+	    attribute 'dew_point', 'number'
+	    attribute 'humidity', 'number'
+	    attribute 'wind_speed', 'number'
+	    attribute 'sunset', 'number'
+	    attribute 'weather', 'vector3'
+
         command 'pollData'
     }
     
@@ -61,7 +76,7 @@ void pollOpenWeather() {
     
     def ParamsOWM;
     
-    state.ow_uri = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=minutely&mode=json&units=imperial&appid=' + apiKey;
+    state.ow_uri = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=minutely,hourly,daily,alerts&mode=json&units=imperial&appid=' + apiKey;
     ParamsOWM = [ uri: state.ow_uri]
     //log.debug('Poll OpenWeatherMap.org: ' + ParamsOWM)
 	asynchttpGet('openWeatherHandler', ParamsOWM)
@@ -77,7 +92,12 @@ void openWeatherHandler(resp, data) {
 	} else {
         now = new Date();       
         sendEvent(name: 'current_weather', value: now.getTime());
-        state.weatherData = resp.data;
+        weatherData = parseJson(resp.data);
+        weatherData.current.each{k, v -> 
+            sendEvent(name: k, value: v);
+        }
+        state.weatherData = weatherData.current;
+        //state.weatherData = resp.data;
     }
 }
 
@@ -85,4 +105,3 @@ String getWeatherData(){
      return state.weatherData;   
 }    
     
-

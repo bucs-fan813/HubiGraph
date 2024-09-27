@@ -837,7 +837,7 @@ function setPressure(val) {
 }
 
 function getWeather() {
-    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=`+latitude+`&lon=`+longitude+`&exclude=minutely&appid=`+tile_key+`&units=imperial`;
+    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=`+latitude+`&lon=`+longitude+`&exclude=minutely,hourly,daily,alerts&appid=`+tile_key+`&units=imperial`;
 
     let now = new Date();
     let tempUnits = "fahrenheit";
@@ -901,7 +901,7 @@ function getWeather() {
     let secs = now.getTime() / 1000.0
     secs = secs.toFixed();
 
-    const url2 = `https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=`+latitude+`&lon=`+longitude+`&dt=`+secs+`&appid=`+tile_key;
+    const url2 = `https://api.openweathermap.org/data/3.0/onecall/timemachine?lat=`+latitude+`&lon=`+longitude+`&dt=`+secs+`&appid=`+tile_key;
 
     fetch(url2)
         .then(response => response.json())
@@ -1061,7 +1061,7 @@ function setForecastTile(weather) {
 
 function getWeeklyForecastWeather() {
        
-    const url = `https://api.openweathermap.org/data/2.5/onecall?lat=`+latitude+`&lon=`+longitude+`&exclude=minutely&appid=`+tile_key+`&units=imperial`;
+    const url = `https://api.openweathermap.org/data/3.0/onecall?lat=`+latitude+`&lon=`+longitude+`&exclude=minutely,hourly,daily,alerts&appid=`+tile_key+`&units=imperial`;
 
     let now = new Date();
     console.log("OpenWeather Data Refresh at " + now.toLocaleString());
