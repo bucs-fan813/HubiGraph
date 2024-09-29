@@ -76,7 +76,7 @@ void pollOpenWeather() {
     
     def ParamsOWM;
     
-    state.ow_uri = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=minutely,hourly,daily,alerts&mode=json&units=imperial&appid=' + apiKey;
+    state.ow_uri = 'https://api.openweathermap.org/data/3.0/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=minutely,alerts&mode=json&units=imperial&appid=' + apiKey;
     ParamsOWM = [ uri: state.ow_uri]
     //log.debug('Poll OpenWeatherMap.org: ' + ParamsOWM)
 	asynchttpGet('openWeatherHandler', ParamsOWM)
